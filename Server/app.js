@@ -2,7 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const path = require('path');
-const routes = require('./routes/portfolio_management');
+const routes = require('./routes/partygame');
 const { errorHandler, notFound } = require('./middleware/errorHandler');
 const session = require('express-session');
 
@@ -52,7 +52,7 @@ app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, '/public')));
 
 app.use(express.json());
-app.use('/', persons);
+app.use('/', routes);
 
 app.use(errorHandler);
 app.use(notFound);
