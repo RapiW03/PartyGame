@@ -10,27 +10,27 @@ require('dotenv').config();
 
 const app = express();
 
-// let sessionStore = undefined;
-// const pgsession = require('connect-pg-simple')(session);
+let sessionStore = undefined;
+const pgsession = require('connect-pg-simple')(session);
 
 // eslint-disable-next-line new-cap
-// sessionStore = new pgsession({
-//   pool: require('./db/index').pool,
-//   // Connection Pool
-//   tableName: 'user_sessions',
-// });
+sessionStore = new pgsession({
+  pool: require('./db/index').pool,
+  // Connection Pool
+  tableName: 'user_sessions',
+});
 
-// const sess = session({
-//   store: sessionStore,
-//   secret: 'awrecnireooahuo121345678765432345678',
-//   resave: false,
-//   saveUninitialized: false,
-//   cookie: {
-//     maxAge: 30 * 24 * 60 * 60 * 1000,
-//     httpOnly: true,
-//     secure: 'auto', // wenn https verwendet wird auf true setzen
-//   },
-// });
+const sess = session({
+  store: sessionStore,
+  secret: 'awrecnireooahuo121345678765432345678',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    httpOnly: true,
+    secure: 'auto', // wenn https verwendet wird auf true setzen
+  },
+});
 
 let corsOption = {};
 const isDevelopment = true;
@@ -45,7 +45,15 @@ if (isDevelopment) {
   app.use(cors(corsOption));
 }
 
-// app.use(sess);
+app.use(sess);
+
+function userCheck(req, res, next) {
+  if (!req.session.db_user_id) {
+    res.status(401).json({ error: 'Error' });
+    return;
+  }
+  next();
+}
 
 app.use(morgan('dev'));
 

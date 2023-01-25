@@ -1,4 +1,5 @@
 const { query } = require('../db/index');
+const moment = require('moment');
 
 // Fragen SQl Statements
 const getAllGameQuestions = async () =>
@@ -36,10 +37,69 @@ const updateQuestion = async (question_id, updateQuestion) =>
   ).rows;
 
 // User Statements
+const loginUser = async (user) => {
+  // User password hashen
+  const res = (
+    await query(
+      'SELECT * FROM "User" WHERE "Username" = $1 AND "Password" = $2',
+      [user.username, user.password]
+    )
+  ).rows;
+  if (res.length === 0) {
+    return false;
+  }
+  return res[0];
+};
+
+const createUser = async (user) =>
+  (
+    await query(
+      'INSERT INTO "User" ("Password", "Username", "Admin") VALUES ($1, $2, $3) returning *',
+      [user.password, user.username, user.admin]
+    )
+  ).rows;
+
+// Game Statements
+const GetAllGames = async () => (await query('SELECT * FROM "Games"')).rows;
+
+const getSelectedGame = async (game_id) =>
+  (await query('SELECT * FROM "Games" WHERE  "Game_ID" =$1', [game_id])).rows;
+
+// Active Game Statements
+const getActiveGameByUser = async (user_id) =>
+  (
+    await query(
+      'SELECT * FROM "ActiveGame" WHERE "User_Created" = $1 AND "isActive" = true',
+      [user_id]
+    )
+  ).rows;
+
+const createNewActiveGame = async (newActiveGame) =>
+  (await query(
+    'UPDATE "ActiveGame" SET "isActive" = false WHERE "User_Created" = $1',
+    [newActiveGame.user_created]
+  ),
+  await query(
+    'INSERT INTO "ActiveGame" ("Game_ID", "User_Created", "isActive", "Players", "Kategorie", "CreationDate") VALUES ($1,$2,$3,$4,$5,$6) returning *',
+    [
+      newActiveGame.game_id,
+      newActiveGame.user_created,
+      true,
+      newActiveGame.players,
+      newActiveGame.kategorie,
+      moment().format('YYYY-MM-DD HH:mm:ss'),
+    ]
+  )).rows;
 
 module.exports = {
   getAllGameQuestions,
   getQuestionsForGame,
   createQuestion,
   updateQuestion,
+  loginUser,
+  createUser,
+  GetAllGames,
+  getSelectedGame,
+  getActiveGameByUser,
+  createNewActiveGame,
 };

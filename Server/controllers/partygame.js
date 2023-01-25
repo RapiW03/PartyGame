@@ -1,22 +1,73 @@
 const asyncHandler = require('express-async-handler');
 const model = require('../model/partygame');
 
+// Fragen calls
+// Alle Fragen bekommmen
 const getAllGameQuestions = asyncHandler(async (req, res) => {
   res.status(200).json(await model.getAllGameQuestions());
 });
 
+// Alle Fragen für Spezifische Game bekommen
 const getQuestionsForGame = asyncHandler(async (req, res) => {
   res.status(200).json(await model.getQuestionsForGame(req.params.game_id));
 });
 
+// Neue Frage erstellen
 const createQuestion = asyncHandler(async (req, res) => {
   res.status(200).json(await model.createQuestion(req.body));
 });
 
+// Frage bearbeiten
 const updateQuestion = asyncHandler(async (req, res) => {
   res
     .status(200)
     .json(await model.updateQuestion(req.params.question_id, req.body));
+});
+
+// User calls
+// Login Route
+const loginUser = asyncHandler(async (req, res) => {
+  const user = await model.loginUser(req.body);
+  if (!user) {
+    req.session.user = null;
+    res.status(402).json('User not Found');
+    return;
+  }
+  console.log('user Logged in');
+  console.log(req.session);
+  req.session.user = user;
+  res.status(200).json(user);
+});
+// Logout User
+const logoutUser = asyncHandler(async (req, res) => {
+  req.session.user = null;
+  console.log('user logged out');
+  res.status(200).send('User logged Out');
+});
+// User erstellen
+const createUser = asyncHandler(async (req, res) => {
+  res.status(200).json(await model.createUser(req.body));
+});
+
+// Game Calls
+// Alle Games bekommen
+const GetAllGames = asyncHandler(async (req, res) => {
+  res.status(200).json(await model.GetAllGames());
+});
+
+// Ausgewähltes Spiel bekommen
+const getSelectedGame = asyncHandler(async (req, res) => {
+  res.status(200).json(await model.getSelectedGame(req.params.game_id));
+});
+
+// ActiveGame Calls
+// Derzeit Aktive Game des Users bekommen
+const getActiveGameByUser = asyncHandler(async (req, res) => {
+  res.status(200).json(await model.getActiveGameByUser(req.params.user_id));
+});
+// Neues Aktives Spiel erstellen
+const createNewActiveGame = asyncHandler(async (req, res) => {
+  res.status(200).json(await model.createNewActiveGame(req.body));
 });
 
 module.exports = {
@@ -24,4 +75,11 @@ module.exports = {
   getQuestionsForGame,
   createQuestion,
   updateQuestion,
+  loginUser,
+  logoutUser,
+  createUser,
+  GetAllGames,
+  getSelectedGame,
+  getActiveGameByUser,
+  createNewActiveGame,
 };

@@ -1,10 +1,8 @@
-GET http://localhost:3000/gameQuestions
+GET http://localhost:3000/ask/gameQuestions
 ###
-GET http://localhost:3000/gameQuestions/1
-
+GET http://localhost:3000/ask/gameQuestions/1
 ###
-
-POST http://localhost:3000/newQuestion
+POST http://localhost:3000/ask/newQuestion
 content-Type: application/json
 
 {
@@ -14,10 +12,8 @@ content-Type: application/json
     "GruppenFrage": "false",
     "Game_ID": "1"
 }
-
 ###
-
-PATCH http://localhost:3000/editQuestion/2
+PATCH http://localhost:3000/ask/editQuestion/2
 content-Type: application/json
 
 {
@@ -27,3 +23,39 @@ content-Type: application/json
     "GruppenFrage": "false",
     "Game_ID": "1"
 }
+###
+POST http://localhost:3000/user/login
+content-Type: application/json
+
+{
+    "username": "Admin",
+    "password": "Admin1234"
+}
+###
+POST http://localhost:3000/user/create
+content-Type: application/json
+
+{
+    "username": "TestUser",
+    "password": "1234",
+    "admin": false
+}
+###
+GET http://localhost:3000/game/allGames
+###
+GET http://localhost:3000/game/1
+###
+GET http://localhost:3000/activegame/getGame/1
+###
+POST http://localhost:3000/activegame/creategame
+content-Type: application/json
+
+{
+    "game_id": "1",
+    "user_created": "1",
+    "players": "Raphi,Christoph,Alex",
+    "kategorie": "Party"
+}
+
+
+

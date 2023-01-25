@@ -10,11 +10,14 @@ Fragen:
 
 User:
     Neuen User erstellen --> POST
-    User Login --> GET :Username :Password
+    User Login --> POST :Username :Password
+    User Logout --> POST
+
 
 ActiveGame:
     Spiel Laden --> GET :User_id
+    Spiel erstellen --> POST
 
 Game:
     Alle Spiele --> GET
-    
+    Ausgewähltes Spiel --> GET :game_id
