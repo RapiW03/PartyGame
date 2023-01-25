@@ -1,9 +1,17 @@
 const express = require('express');
-const { getAllGameQuestions } = require('../controllers/partygame');
+const {
+  getAllGameQuestions,
+  getQuestionsForGame,
+  createQuestion,
+  updateQuestion,
+} = require('../controllers/partygame');
 
 const router = express.Router();
 
-// Alle Fragen für das Spezifische Spiel
+// Fragen Routen
 router.get('/gameQuestions', getAllGameQuestions);
+router.get('/gameQuestions/:game_id', getQuestionsForGame);
+router.post('/newQuestion', createQuestion);
+router.patch('/editQuestion/:question_id', updateQuestion);
 
 module.exports = router;

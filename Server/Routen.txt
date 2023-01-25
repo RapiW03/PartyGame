@@ -1,0 +1,20 @@
+Routen:
+
+Fragen:
+    Alle Fragen bekommen --> GET
+    Alle Fragen für ein Game bekommen --> GET :game_id
+    
+    Für Admin:
+    Neue Frage erstellen --> POST
+    Fragen bearbeiten --> PATCH
+
+User:
+    Neuen User erstellen --> POST
+    User Login --> GET :Username :Password
+
+ActiveGame:
+    Spiel Laden --> GET :User_id
+
+Game:
+    Alle Spiele --> GET
+    

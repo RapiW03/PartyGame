@@ -1,1 +1,29 @@
 GET http://localhost:3000/gameQuestions
+###
+GET http://localhost:3000/gameQuestions/1
+
+###
+
+POST http://localhost:3000/newQuestion
+content-Type: application/json
+
+{
+    "Frage": "X wenn du schonmal was gestohlen hast trinke 2 Schlücke",
+    "Kategorie": "Party",
+    "SingleFrage": "true",
+    "GruppenFrage": "false",
+    "Game_ID": "1"
+}
+
+###
+
+PATCH http://localhost:3000/editQuestion/2
+content-Type: application/json
+
+{
+    "Frage": "X du darfst 2 Schlücke verteilen!",
+    "Kategorie": "Party",
+    "SingleFrage": "true",
+    "GruppenFrage": "false",
+    "Game_ID": "1"
+}
