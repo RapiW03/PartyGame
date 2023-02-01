@@ -149,9 +149,8 @@ export default {
           password: this.password,
         })
       ).data;
-      console.log(user);
       if (user.User_ID != undefined) {
-        console.log('works');
+        this.$router.replace('/mainmenu');
       }
     },
     async loginUser() {
@@ -162,7 +161,9 @@ export default {
           password: this.loginPassword,
         })
       ).data;
-      console.log(user);
+      if (user.User_ID != undefined) {
+        this.$router.replace('/mainmenu');
+      }
     },
   },
 };

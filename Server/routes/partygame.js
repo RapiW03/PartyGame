@@ -41,7 +41,7 @@ router.get('/game/:game_id', getSelectedGame);
 
 //ActiveGame Routen
 // Derzeit Aktive Game des Users bekommen
-router.get('/activegame/getGame/:user_id', getActiveGameByUser);
+router.get('/activegame/getGame', getActiveGameByUser);
 // Neues Aktives Spiel erstellen
 router.post('/activegame/creategame', createNewActiveGame);
 
