@@ -63,8 +63,7 @@ const getSelectedGame = asyncHandler(async (req, res) => {
 // ActiveGame Calls
 // Derzeit Aktive Game des Users bekommen
 const getActiveGameByUser = asyncHandler(async (req, res) => {
-  console.log(req.session.user);
-  console.log(req.session.user.User_ID);
+  console.log(await model.getActiveGameByUser(req.session.user.User_ID));
   res
     .status(200)
     .json(await model.getActiveGameByUser(req.session.user.User_ID));
