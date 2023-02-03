@@ -5,7 +5,13 @@
       <v-list dense>
         <v-list-item-group>
           <v-list-item v-for="g of games" :key="g.Game_ID">
-            <button class="buttonsMenu" role="button">{{ g.Name }}</button>
+            <button
+              class="buttonsMenu"
+              role="button"
+              @click="moveToGame(g.Game_ID)"
+            >
+              {{ g.Name }}
+            </button>
           </v-list-item>
         </v-list-item-group>
       </v-list>
@@ -26,6 +32,10 @@ export default {
       this.games = (
         await server.get(`${process.env.VUE_APP_SERVER_BASE_URL}/game/allGames`)
       ).data;
+    },
+    moveToGame(id) {
+      console.log(id);
+      this.$router.replace(`/gamemenu/${id}`);
     },
   },
   created() {
