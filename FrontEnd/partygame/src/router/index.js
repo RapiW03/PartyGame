@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import MainMenu from '../views/MainMenu.vue';
 import GameMenu from '../views/GameMenu.vue';
+import GameSite from '../views/GameSite.vue';
 
 Vue.use(VueRouter);
 
@@ -22,6 +23,11 @@ const routes = [
     name: 'GameMenu',
     component: GameMenu,
     props: true,
+  },
+  {
+    path: '/gamesite',
+    name: 'GameSite',
+    component: GameSite,
   },
 ];
 

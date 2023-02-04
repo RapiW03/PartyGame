@@ -70,6 +70,8 @@ const getActiveGameByUser = asyncHandler(async (req, res) => {
 });
 // Neues Aktives Spiel erstellen
 const createNewActiveGame = asyncHandler(async (req, res) => {
+  req.body.user_created = req.session.user.User_ID;
+  console.log(req.body);
   res.status(200).json(await model.createNewActiveGame(req.body));
 });
 

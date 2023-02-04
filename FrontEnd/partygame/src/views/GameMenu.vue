@@ -1,5 +1,11 @@
 <template>
   <div>
+    <v-overlay
+      zIndex="9996"
+      :absolute="absolute"
+      :value="overlay"
+      opacity="0.35"
+    ></v-overlay>
     <h1 v-if="game_id == '1'">Trinkspiel Fragen</h1>
     <h1 v-if="game_id == '9999'">Test</h1>
     <v-list dense v-if="game_id == '1'">
@@ -16,7 +22,7 @@
       </v-list-item-group>
     </v-list>
     <v-dialog max-width="600" v-model="dialogNewGame">
-      <v-form v-model="createForm">
+      <v-form>
         <div>
           <v-slider
             v-model="anzPlayer"
@@ -27,7 +33,6 @@
             thumb-label
           ></v-slider>
           <v-text-field
-            color="purple darken-2"
             :label="`Spieler ${a}`"
             required
             v-for="a of anzPlayer"
@@ -40,6 +45,7 @@
             :items="selectedGame.Kategorien"
             label="Kategorien"
             outlined
+            v-model="selKategorie"
           ></v-select>
         </div>
         <v-btn color="primary" text @click="dialogNewGame = false">
@@ -64,6 +70,9 @@ export default {
       anzPlayer: 2,
       dialogNewGame: false,
       createForm: {},
+      selKategorie: '',
+      overlay: false,
+      absolute: true,
     };
   },
   props: {
@@ -78,7 +87,6 @@ export default {
           `${process.env.VUE_APP_SERVER_BASE_URL}/activegame/getGame`
         )
       ).data[0];
-      console.log(this.activeGame);
     },
     async getAllGames() {
       this.allGames = (
@@ -90,8 +98,22 @@ export default {
       this.selectedGame.Kategorien = this.selectedGame.Kategorien.split(';');
       this.dialogNewGame = true;
     },
-    createDrinkingGame() {
-      console.log(this.createForm);
+    async createDrinkingGame() {
+      let playerArr = [];
+      for (let i = 1; i <= this.anzPlayer; i++) {
+        playerArr.push(document.querySelector(`#player${i}`).value);
+      }
+      let playerString = playerArr.join(';');
+      await server.post(
+        `${process.env.VUE_APP_SERVER_BASE_URL}/activegame/creategame`,
+        {
+          game_id: this.selectedGame.Game_ID,
+          players: playerString,
+          kategorie: this.selKategorie,
+        }
+      );
+      this.dialogNewGame = false;
+      this.$router.replace(`/gamesite`);
     },
   },
   created() {
