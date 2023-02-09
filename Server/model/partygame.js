@@ -60,7 +60,9 @@ const createUser = async (user) =>
   ).rows;
 
 // Game Statements
-const GetAllGames = async () => (await query('SELECT * FROM "Games"')).rows;
+const GetAllGames = async () =>
+  (await query('SELECT * FROM "Games" WHERE "Public" = true')).rows;
+const GetAllGameAdmin = async () => (await query('SELECT * FROM "Games"')).rows;
 
 const getSelectedGame = async (game_id) =>
   (await query('SELECT * FROM "Games" WHERE  "Game_ID" =$1', [game_id])).rows;
@@ -102,4 +104,5 @@ module.exports = {
   getSelectedGame,
   getActiveGameByUser,
   createNewActiveGame,
+  GetAllGameAdmin,
 };

@@ -1,60 +1,65 @@
 <template>
-  <div>
+  <div class="flex-row mx-auto d-flex justify-center fill-height">
     <v-overlay
       zIndex="9996"
       :absolute="absolute"
       :value="overlay"
       opacity="0.35"
     ></v-overlay>
-    <h1 v-if="game_id == '1'">Trinkspiel Fragen</h1>
-    <h1 v-if="game_id == '9999'">Test</h1>
-    <v-list dense v-if="game_id == '1'">
-      <v-list-item-group>
-        <v-list-item>
-          <button
-            class="buttonsMenu"
-            role="button"
-            @click="newDrinkingGameDialog('1')"
-          >
-            Neues Spiel
-          </button>
-        </v-list-item>
-      </v-list-item-group>
-    </v-list>
+    <div align="center" justify="center" class="mx-auto verticalAlign">
+      <h1 v-if="game_id == '1'">Trinkspiel Fragen</h1>
+      <h1 v-if="game_id == '2'">Ich hab noch nie</h1>
+      <h1 v-if="game_id == '9999'">Test</h1>
+      <v-list dense>
+        <v-list-item-group>
+          <v-list-item>
+            <button
+              class="buttonsMenu"
+              role="button"
+              @click="newDrinkingGameDialog(game_id)"
+            >
+              Neues Spiel
+            </button>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </div>
     <v-dialog max-width="600" v-model="dialogNewGame">
-      <v-form>
-        <div>
-          <v-slider
-            v-model="anzPlayer"
-            color="orange"
-            label="Anzahl Spieler"
-            min="2"
-            max="20"
-            thumb-label
-          ></v-slider>
-          <v-text-field
-            :label="`Spieler ${a}`"
-            required
-            v-for="a of anzPlayer"
-            :key="a"
-            :id="`player${a}`"
-          ></v-text-field>
-        </div>
-        <div>
-          <v-select
-            :items="selectedGame.Kategorien"
-            label="Kategorien"
-            outlined
-            v-model="selKategorie"
-          ></v-select>
-        </div>
-        <v-btn color="primary" text @click="dialogNewGame = false">
-          Schließen
-        </v-btn>
-        <v-btn color="success" @click="createDrinkingGame">
-          Spiel erstellen
-        </v-btn>
-      </v-form>
+      <v-card>
+        <v-form>
+          <div>
+            <v-slider
+              v-model="anzPlayer"
+              color="orange"
+              label="Anzahl Spieler"
+              min="2"
+              max="20"
+              thumb-label
+            ></v-slider>
+            <v-text-field
+              :label="`Spieler ${a}`"
+              required
+              v-for="a of anzPlayer"
+              :key="a"
+              :id="`player${a}`"
+            ></v-text-field>
+          </div>
+          <div>
+            <v-select
+              :items="selectedGame.Kategorien"
+              label="Kategorien"
+              outlined
+              v-model="selKategorie"
+            ></v-select>
+          </div>
+          <v-btn color="primary" text @click="dialogNewGame = false">
+            Schließen
+          </v-btn>
+          <v-btn color="success" @click="createDrinkingGame">
+            Spiel erstellen
+          </v-btn>
+        </v-form>
+      </v-card>
     </v-dialog>
   </div>
 </template>
@@ -123,4 +128,63 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.buttonsMenu {
+  appearance: button;
+  background-color: #000;
+  background-image: none;
+  border: 1px solid #000;
+  border-radius: 4px;
+  box-shadow: #fff 4px 4px 0 0, #000 4px 4px 0 1px;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: ITCAvantGardeStd-Bk, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  margin: 0 5px 10px 0;
+  overflow: visible;
+  padding: 12px 40px;
+  text-align: center;
+  text-transform: none;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.buttonsMenu:focus {
+  text-decoration: none;
+}
+
+.buttonsMenu:hover {
+  text-decoration: none;
+}
+
+.buttonsMenu:active {
+  box-shadow: rgba(0, 0, 0, 0.125) 0 3px 5px inset;
+  outline: 0;
+}
+
+.buttonsMenu:not([disabled]):active {
+  box-shadow: #fff 2px 2px 0 0, #000 2px 2px 0 1px;
+  transform: translate(2px, 2px);
+}
+
+@media (min-width: 768px) {
+  .buttonsMenu {
+    padding: 12px 50px;
+  }
+}
+
+.verticalAlign {
+  margin: 0;
+  position: absolute;
+  top: 40%;
+  -ms-transform: translateY(-40%);
+  transform: translateY(-40%);
+}
+</style>

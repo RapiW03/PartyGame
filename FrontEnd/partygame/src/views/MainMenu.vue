@@ -1,5 +1,8 @@
 <template>
   <div class="flex-row mx-auto d-flex justify-center fill-height">
+    <div>
+      <button class="buttonsMenu" role="button">Fragenseite</button>
+    </div>
     <div align="center" justify="center" class="mx-auto verticalAlign">
       <h2>Spielauswahl</h2>
       <v-list dense>

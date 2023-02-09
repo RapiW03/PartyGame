@@ -52,7 +52,11 @@ const createUser = asyncHandler(async (req, res) => {
 // Game Calls
 // Alle Games bekommen
 const GetAllGames = asyncHandler(async (req, res) => {
-  res.status(200).json(await model.GetAllGames());
+  if (req.session.user.Admin == true) {
+    res.status(200).json(await model.GetAllGameAdmin());
+  } else {
+    res.status(200).json(await model.GetAllGames());
+  }
 });
 
 // Ausgewähltes Spiel bekommen
