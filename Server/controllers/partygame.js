@@ -64,6 +64,11 @@ const getSelectedGame = asyncHandler(async (req, res) => {
   res.status(200).json(await model.getSelectedGame(req.params.game_id));
 });
 
+// Spiele mit Fragen bekommen
+const getQuestionsGame = asyncHandler(async (req, res) => {
+  res.status(200).json(await model.getQuestionsGame());
+});
+
 // ActiveGame Calls
 // Derzeit Aktive Game des Users bekommen
 const getActiveGameByUser = asyncHandler(async (req, res) => {
@@ -91,4 +96,5 @@ module.exports = {
   getSelectedGame,
   getActiveGameByUser,
   createNewActiveGame,
+  getQuestionsGame,
 };

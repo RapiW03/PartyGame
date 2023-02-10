@@ -11,13 +11,14 @@ const {
   getSelectedGame,
   getActiveGameByUser,
   createNewActiveGame,
+  getQuestionsGame,
 } = require('../controllers/partygame');
 
 const router = express.Router();
 
 // Fragen Routen
 // Alle Fragen bekommmen
-router.get('/ask/ gameQuestions', getAllGameQuestions);
+router.get('/ask/gameQuestions', getAllGameQuestions);
 // Alle Fragen für Spezifische Game bekommen
 router.get('/ask/gameQuestions/:game_id', getQuestionsForGame);
 // Neue Frage erstellen
@@ -38,6 +39,8 @@ router.post('/user/create', createUser);
 router.get('/game/allGames', GetAllGames);
 // Ausgewähltes Game
 router.get('/game/:game_id', getSelectedGame);
+//Spiele mit Fragen bekommen
+router.get('/game/allGames/question', getQuestionsGame);
 
 //ActiveGame Routen
 // Derzeit Aktive Game des Users bekommen

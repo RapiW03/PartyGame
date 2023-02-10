@@ -67,6 +67,9 @@ const GetAllGameAdmin = async () => (await query('SELECT * FROM "Games"')).rows;
 const getSelectedGame = async (game_id) =>
   (await query('SELECT * FROM "Games" WHERE  "Game_ID" =$1', [game_id])).rows;
 
+const getQuestionsGame = async () =>
+  (await query('SELECT * FROM "Games" WHERE "questionGame" = true')).rows;
+
 // Active Game Statements
 const getActiveGameByUser = async (user_id) =>
   (
@@ -105,4 +108,5 @@ module.exports = {
   getActiveGameByUser,
   createNewActiveGame,
   GetAllGameAdmin,
+  getQuestionsGame,
 };

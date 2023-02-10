@@ -1,7 +1,9 @@
 <template>
   <div class="flex-row mx-auto d-flex justify-center fill-height">
-    <div>
-      <button class="buttonsMenu" role="button">Fragenseite</button>
+    <div class="mt-5">
+      <button class="buttonsMenu" role="button" @click="getToQuestionSite">
+        Fragenseite
+      </button>
     </div>
     <div align="center" justify="center" class="mx-auto verticalAlign">
       <h2>Spielauswahl</h2>
@@ -37,8 +39,10 @@ export default {
       ).data;
     },
     moveToGame(id) {
-      console.log(id);
       this.$router.replace(`/gamemenu/${id}`);
+    },
+    getToQuestionSite() {
+      this.$router.replace(`/questionsite`);
     },
   },
   created() {

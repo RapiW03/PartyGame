@@ -41,7 +41,7 @@ content-Type: application/json
     "admin": false
 }
 ###
-GET http://localhost:3000/game/allGames
+GET http://localhost:3000/game/allGames/question
 ###
 GET http://localhost:3000/game/1
 ###
