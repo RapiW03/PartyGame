@@ -20,6 +20,18 @@
               required
               v-model="newQuestion.fragen"
             ></v-text-field>
+            <v-radio-group v-model="questionType" column>
+              <v-radio
+                label="Gruppen Frage"
+                color="red"
+                value="group"
+              ></v-radio>
+              <v-radio
+                label="Single Frage"
+                color="red"
+                value="single"
+              ></v-radio>
+            </v-radio-group>
           </div>
           <div>
             <v-select
@@ -81,6 +93,7 @@ export default {
       },
       games: [],
       gameNames: [],
+      questionType: '',
     };
   },
   methods: {
@@ -100,7 +113,43 @@ export default {
         this.gameNames.push(element.Name);
       });
     },
-    createQuestion() {
+    async createQuestion() {
+      switch (this.questionType) {
+        case 'single':
+          this.newQuestion.singleFrage = true;
+          this.newQuestion.gruppenFrage = false;
+          break;
+        case 'group':
+          this.newQuestion.singleFrage = false;
+          this.newQuestion.gruppenFrage = true;
+          break;
+      }
+
+      switch (this.newQuestion.gameID) {
+        case 'Trinkspiel Fragen':
+          this.newQuestion.gameID = 1;
+          break;
+
+        case 'Ich hab noch nie':
+          this.newQuestion.gameID = 2;
+          break;
+
+        case 'Würdest du eher':
+          this.newQuestion.gameID = 3;
+          break;
+      }
+
+      await server.post(
+        `${process.env.VUE_APP_SERVER_BASE_URL}/ask/newQuestion`,
+        {
+          Frage: this.newQuestion.fragen,
+          Kategorie: this.newQuestion.kategorie,
+          SingleFrage: this.newQuestion.singleFrage,
+          GruppenFrage: this.newQuestion.gruppenFrage,
+          Game_ID: this.newQuestion.gameID,
+        }
+      );
+
       this.createDialog = false;
     },
     openCreateQuestionDialog() {

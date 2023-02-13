@@ -5,7 +5,11 @@
         Fragenseite
       </button>
     </div>
-    <div align="center" justify="center" class="mx-auto verticalAlign">
+    <div
+      align="center"
+      justify="center"
+      class="mx-auto verticalAlign backgroundClass"
+    >
       <h2>Spielauswahl</h2>
       <v-list dense>
         <v-list-item-group>
@@ -109,5 +113,9 @@ export default {
   top: 40%;
   -ms-transform: translateY(-40%);
   transform: translateY(-40%);
+}
+
+.backgroundClass {
+  background-color: lightgray;
 }
 </style>

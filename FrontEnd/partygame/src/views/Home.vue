@@ -12,7 +12,7 @@
             <v-tabs
               v-model="tab"
               show-arrows
-              background-color="deep-purple accent-4"
+              background-color="black"
               icons-and-text
               dark
               grow
@@ -62,10 +62,9 @@
                           <v-btn
                             x-large
                             block
-                            color="success"
                             @click="loginUser"
-                          >
-                            Login
+                            class="buttonsMenu"
+                            >Login
                           </v-btn>
                         </v-col>
                       </v-row>
@@ -101,8 +100,8 @@
                           <v-btn
                             x-large
                             block
-                            color="success"
                             @click="registerUser"
+                            class="buttonsMenu"
                             >Register</v-btn
                           >
                         </v-col>
@@ -137,7 +136,6 @@ export default {
       this.$refs.form.reset();
     },
     async registerUser() {
-      console.log('1');
       await server.post(`http://localhost:3000/user/create`, {
         username: this.username,
         password: this.password,
@@ -154,7 +152,6 @@ export default {
       }
     },
     async loginUser() {
-      console.log(1);
       let user = (
         await server.post(`http://localhost:3000/user/login`, {
           username: this.loginUsername,
@@ -168,3 +165,55 @@ export default {
   },
 };
 </script>
+<style>
+.buttonsMenu {
+  appearance: button;
+  background-color: #000;
+  background-image: none;
+  border: 1px solid #000;
+  border-radius: 4px;
+  box-shadow: #fff 4px 4px 0 0, #000 4px 4px 0 1px;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: ITCAvantGardeStd-Bk, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  margin: 0 5px 10px 0;
+  overflow: visible;
+  padding: 12px 40px;
+  text-align: center;
+  text-transform: none;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.buttonsMenu:focus {
+  text-decoration: none;
+}
+
+.buttonsMenu:hover {
+  text-decoration: none;
+}
+
+.buttonsMenu:active {
+  box-shadow: rgba(0, 0, 0, 0.125) 0 3px 5px inset;
+  outline: 0;
+}
+
+.buttonsMenu:not([disabled]):active {
+  box-shadow: #fff 2px 2px 0 0, #000 2px 2px 0 1px;
+  transform: translate(2px, 2px);
+}
+
+@media (min-width: 768px) {
+  .buttonsMenu {
+    padding: 12px 50px;
+  }
+}
+</style>
