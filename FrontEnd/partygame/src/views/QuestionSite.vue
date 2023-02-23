@@ -8,7 +8,29 @@
       >
         Neue Fragen Hinzufügen
       </button>
-      <v-data-table :headers="headers" :items="fragen" class="elevation-1">
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+      <v-data-table
+        :headers="headers"
+        :items="fragen"
+        :search="search"
+        class="elevation-1"
+      >
+        <template v-slot:[`item.action`]="{ item }">
+          <v-btn
+            @click="editQuestion(item)"
+            small
+            plain
+            class="primary mt-2 mb-2 me-2"
+            >Bearbeiten</v-btn
+          >
+        </template>
       </v-data-table>
     </div>
     <v-dialog max-width="600" v-model="createDialog">
@@ -61,6 +83,37 @@
         </v-form>
       </v-card>
     </v-dialog>
+    <v-dialog max-width="600" v-model="editDialog">
+      <v-card>
+        <v-card-title>Frage Bearbeiten</v-card-title>
+        <div>
+          <v-text-field
+            label="Frage"
+            required
+            v-model="curQuestion.Frage"
+          ></v-text-field>
+          <v-select
+            v-if="curQuestion.Game_ID != ''"
+            :items="
+              games
+                .find((e) => e.Game_ID == curQuestion.Game_ID)
+                .Kategorien.split(';')
+            "
+            label="Kategorien"
+            outlined
+            v-model="curQuestion.Kategorie"
+          ></v-select>
+        </div>
+        <v-card-actions>
+          <v-btn color="primary" text @click="editDialog = false">
+            Schließen
+          </v-btn>
+          <v-btn color="deep-purple lighten-2" text @click="saveQuestion">
+            Speichern
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -69,6 +122,7 @@ import server from '@/serverInterface';
 export default {
   data() {
     return {
+      search: '',
       fragen: [],
       headers: [
         {
@@ -82,8 +136,10 @@ export default {
         { text: 'Gruppenfrage', value: 'GruppenFrage' },
         { text: 'Einzelfrage', value: 'SingleFrage' },
         { text: 'Game', value: 'Game_ID' },
+        { text: 'Actions', value: 'action' },
       ],
       createDialog: false,
+      editDialog: false,
       newQuestion: {
         fragen: '',
         kategorie: '',
@@ -94,9 +150,29 @@ export default {
       games: [],
       gameNames: [],
       questionType: '',
+      curQuestion: {},
     };
   },
   methods: {
+    async saveQuestion() {
+      await server.patch(
+        `${process.env.VUE_APP_SERVER_BASE_URL}/ask/editQuestion/${this.curQuestion.Fragen_ID}`,
+        {
+          Frage: this.curQuestion.Frage,
+          Kategorie: this.curQuestion.Kategorie,
+          SingleFrage: this.curQuestion.SingleFrage,
+          GruppenFrage: this.curQuestion.GruppenFrage,
+        }
+      );
+      this.editDialog = false;
+      this.getAllFragen();
+    },
+    editQuestion(question) {
+      console.log(this.games);
+      this.curQuestion = question;
+      console.log(this.curQuestion);
+      this.editDialog = true;
+    },
     async getAllFragen() {
       this.fragen = (
         await server.get(
@@ -151,6 +227,8 @@ export default {
       );
 
       this.createDialog = false;
+
+      this.getAllFragen();
     },
     openCreateQuestionDialog() {
       this.createDialog = true;
@@ -158,6 +236,7 @@ export default {
   },
   created() {
     this.getAllFragen();
+    this.curQuestion.Game_ID = '';
   },
 };
 </script>
