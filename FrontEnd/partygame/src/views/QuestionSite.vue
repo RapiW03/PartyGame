@@ -168,9 +168,7 @@ export default {
       this.getAllFragen();
     },
     editQuestion(question) {
-      console.log(this.games);
       this.curQuestion = question;
-      console.log(this.curQuestion);
       this.editDialog = true;
     },
     async getAllFragen() {
@@ -225,7 +223,7 @@ export default {
           Game_ID: this.newQuestion.gameID,
         }
       );
-
+      this.newQuestion.gameID = '';
       this.createDialog = false;
 
       this.getAllFragen();
@@ -237,6 +235,7 @@ export default {
   created() {
     this.getAllFragen();
     this.curQuestion.Game_ID = '';
+    this.newQuestion.gameID = '';
   },
 };
 </script>
