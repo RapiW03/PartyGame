@@ -64,7 +64,8 @@
                             block
                             @click="loginUser"
                             class="buttonsMenu"
-                            >Login
+                          >
+                            Login
                           </v-btn>
                         </v-col>
                       </v-row>
@@ -102,8 +103,9 @@
                             block
                             @click="registerUser"
                             class="buttonsMenu"
-                            >Register</v-btn
                           >
+                            Register
+                          </v-btn>
                         </v-col>
                       </v-row>
                     </v-form>

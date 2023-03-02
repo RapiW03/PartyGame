@@ -12,6 +12,7 @@ const {
   getActiveGameByUser,
   createNewActiveGame,
   getQuestionsGame,
+  isAdmin,
 } = require('../controllers/partygame');
 
 const router = express.Router();
@@ -33,6 +34,8 @@ router.post('/user/login', loginUser);
 router.post('/user/logout', logoutUser);
 // User erstellen
 router.post('/user/create', createUser);
+//Abfrage ob User Admin ist
+router.get('/user/isadmin', isAdmin);
 
 //Game Routen
 // Alle Games

@@ -34,6 +34,7 @@ export default {
   data() {
     return {
       games: [],
+      isAdmin: false,
     };
   },
   methods: {
@@ -42,14 +43,28 @@ export default {
         await server.get(`${process.env.VUE_APP_SERVER_BASE_URL}/game/allGames`)
       ).data;
     },
+    async checkAdmin() {
+      let halter = (
+        await server.get(`${process.env.VUE_APP_SERVER_BASE_URL}/user/isadmin`)
+      ).data;
+      if (halter.Admin) {
+        console.log('ja');
+        this.isAdmin = true;
+      }
+    },
     moveToGame(id) {
       this.$router.replace(`/gamemenu/${id}`);
     },
     getToQuestionSite() {
-      this.$router.replace(`/questionsite`);
+      if (this.isAdmin) {
+        this.$router.replace(`/questionsite`);
+      } else {
+        alert('Keine Berechtigung');
+      }
     },
   },
   created() {
+    this.checkAdmin();
     this.getAllGames();
   },
 };

@@ -43,7 +43,7 @@ content-Type: application/json
 ###
 GET http://localhost:3000/game/allGames/question
 ###
-GET http://localhost:3000/game/1
+GET http://localhost:3000/user/isadmin
 ###
 GET http://localhost:3000/activegame/getGame/1
 ###

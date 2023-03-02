@@ -3,7 +3,7 @@ const moment = require('moment');
 
 // Fragen SQl Statements
 const getAllGameQuestions = async () =>
-  (await query('SELECT * FROM public."Fragen"')).rows;
+  (await query('SELECT * FROM public."Fragen" ORDER BY "Fragen_ID" ASC')).rows;
 
 const getQuestionsForGame = async (game_id) =>
   (await query('SELECT * FROM "Fragen" WHERE "Game_ID" =$1', [game_id])).rows;

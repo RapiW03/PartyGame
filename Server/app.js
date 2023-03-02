@@ -25,6 +25,7 @@ const sess = session({
   secret: 'awrecnireooahuo121345678765432345678',
   resave: false,
   saveUninitialized: false,
+  createTableIfMissing: true,
   cookie: {
     maxAge: 30 * 24 * 60 * 60 * 1000,
     httpOnly: true,

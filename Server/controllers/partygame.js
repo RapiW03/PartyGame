@@ -48,6 +48,10 @@ const logoutUser = asyncHandler(async (req, res) => {
 const createUser = asyncHandler(async (req, res) => {
   res.status(200).json(await model.createUser(req.body));
 });
+//Abfrage ob User Admin ist
+const isAdmin = asyncHandler(async (req, res) => {
+  res.status(200).json(req.session.user);
+});
 
 // Game Calls
 // Alle Games bekommen
@@ -97,4 +101,5 @@ module.exports = {
   getActiveGameByUser,
   createNewActiveGame,
   getQuestionsGame,
+  isAdmin,
 };
