@@ -39,7 +39,7 @@ const isDevelopment = true;
 app.use(helmet());
 if (isDevelopment) {
   corsOption = {
-    origin: 'http://localhost:8080',
+    origin: process.env.ORIGIN,
     credentials: true,
   };
   const cors = require('cors');
